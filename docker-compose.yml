@@ -1,0 +1,44 @@
+services:
+  api:
+    build:
+      context: ./services/mapper-api
+    container_name: sabermapper-api
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      STORAGE_PATH: /storage
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-50}
+      MAX_AUDIO_DURATION_SECONDS: ${MAX_AUDIO_DURATION_SECONDS:-600}
+      MAX_CONCURRENT_JOBS: ${MAX_CONCURRENT_JOBS:-2}
+      JOB_RETENTION_HOURS: ${JOB_RETENTION_HOURS:-6}
+      FFMPEG_TIMEOUT_SECONDS: ${FFMPEG_TIMEOUT_SECONDS:-120}
+      YOUTUBE_DOWNLOAD_TIMEOUT_SECONDS: ${YOUTUBE_DOWNLOAD_TIMEOUT_SECONDS:-120}
+      ENABLE_YOUTUBE: ${ENABLE_YOUTUBE:-true}
+      ENABLE_VARIABLE_TEMPO: ${ENABLE_VARIABLE_TEMPO:-true}
+      DEBUG_MAPPING: ${DEBUG_MAPPING:-false}
+      # Derived from WEB_PORT so the two cannot drift apart. They are the
+      # same fact stated twice: the origin the browser sends is decided
+      # by the port the web app is published on, and if the API allows a
+      # different one every request is blocked by CORS with nothing in
+      # the API log to show for it.
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:${WEB_PORT:-3000},http://127.0.0.1:${WEB_PORT:-3000}}
+    volumes:
+      # Job data survives a rebuild during development.
+      - ./storage:/storage
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        # Baked into the client bundle, so it must be the URL the *browser*
+        # uses — not the internal compose hostname.
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
+    container_name: sabermapper-web
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - api
+    restart: unless-stopped

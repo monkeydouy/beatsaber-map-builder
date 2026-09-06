@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    @apply bg-ink-950 font-sans text-slate-200 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-image:
+      radial-gradient(60rem 40rem at 12% -10%, rgb(74 125 255 / 0.16), transparent 60%),
+      radial-gradient(50rem 36rem at 92% 4%, rgb(255 61 129 / 0.12), transparent 62%),
+      radial-gradient(46rem 34rem at 50% 108%, rgb(34 228 242 / 0.10), transparent 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-neon-cyan/30 text-white;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-neon-cyan/70 ring-offset-2 ring-offset-ink-950;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-white/[0.07] bg-ink-900/70 shadow-panel backdrop-blur-xl;
+  }
+
+  .label {
+    @apply text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-slate-400;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-ink-850/80 px-4 py-3 text-sm text-slate-100
+           placeholder:text-slate-500 transition
+           focus:border-neon-cyan/60 focus:bg-ink-850;
+  }
+
+  /* A hairline gradient rule used to separate major blocks. */
+  .rule {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+}
+
+/* Range input needs explicit cross-browser thumb styling. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    #22e4f2 0%,
+    #4a7dff var(--fill, 50%),
+    rgb(255 255 255 / 0.09) var(--fill, 50%),
+    rgb(255 255 255 / 0.09) 100%
+  );
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -0.4rem;
+  height: 1.3rem;
+  width: 1.3rem;
+  border-radius: 9999px;
+  background: #eaf6ff;
+  border: 3px solid #0a0c15;
+  box-shadow: 0 0 16px -2px rgb(34 228 242 / 0.9);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.09);
+}
+
+input[type="range"]::-moz-range-progress {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #22e4f2, #4a7dff);
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 1.1rem;
+  width: 1.1rem;
+  border-radius: 9999px;
+  background: #eaf6ff;
+  border: 3px solid #0a0c15;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,54 @@
+# --- python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# --- node -----------------------------------------------------------------
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# --- generated audio fixtures ---------------------------------------------
+# Rebuilt on demand by tests/fixtures/make_fixture.py; too large to commit.
+# ranked_corpus.json is deliberately NOT ignored: it is the evidence behind the
+# difficulty profiles, and the calibration tests read it.
+services/mapper-api/tests/fixtures/*.wav
+services/mapper-api/tests/fixtures/*.mp3
+services/mapper-api/tests/fixtures/analysis_cache.json
+
+# --- runtime data ---------------------------------------------------------
+# Uploaded audio, extracted analysis and generated maps. Everything a user
+# ever fed the app lands here, so none of it belongs in the repository.
+storage/*
+!storage/.gitkeep
+
+# --- local config ---------------------------------------------------------
+.env
+.env.local
+
+# --- agent tooling --------------------------------------------------------
+# `settings.local.json` is per-machine and accumulates whatever commands were
+# approved on it — including, in practice, credentials pasted into a shell.
+# Never commit it. `skills/` is vendored third-party content with its own
+# licences and is large; keep the shared settings and agent definitions only.
+# Editor and agent state, all of it. `settings.local.json` in particular
+# accumulates whatever shell commands were approved on the machine, including
+# credentials pasted into one, so none of this belongs in a public repository.
+.claude/
+
+# --- reference material ---------------------------------------------------
+# Community Beat Saber levels used to calibrate the generator. These are other
+# people's maps and other people's music: useful to develop against, not ours
+# to redistribute. `tools/analyse_reference_maps.py` documents what to put here.
+examples/
+
+# --- os / editors ---------------------------------------------------------
+.DS_Store
+.idea/
+.vscode/

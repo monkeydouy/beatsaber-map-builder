@@ -1,0 +1,20 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+
+librosa==0.10.2.post1
+numpy==1.26.4
+scipy==1.14.1
+soundfile==0.12.1
+numba==0.60.0
+
+Pillow==11.1.0
+
+# YouTube changes its player constantly and yt-dlp ships fixes every few weeks.
+# A stale pin does not degrade gracefully — extraction simply stops working
+# ("The page needs to be reloaded"). Treat this as a perishable dependency and
+# bump it when the YouTube tab starts failing; `docker compose build api` is
+# enough to pick up a new one.
+yt-dlp==2026.8.19

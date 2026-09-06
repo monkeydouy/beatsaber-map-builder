@@ -1,0 +1,20 @@
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+  # Line length is a formatter concern, not a linter one.
+  "E501",
+  # `zip(xs, xs[1:])` is the pairwise idiom used throughout the mapping engine.
+  # `strict=True` would be wrong here (the sequences differ in length by one),
+  # and `itertools.pairwise` reads worse in the three-way variants.
+  "B905",
+  "RUF007",
+  # FastAPI's Depends()/File() defaults are the documented idiom.
+  "B008",
+  # Mutable class attributes are fine in the test helper classes.
+  "RUF012",
+  # En/em dashes appear deliberately in regexes that match real filenames.
+  "RUF001",
+]
